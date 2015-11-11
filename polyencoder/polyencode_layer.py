@@ -30,9 +30,10 @@
 from __future__ import print_function
 import sys
 import csv
-from .polyencoder import polyencode
-import fiona
 from urllib import quote_plus
+import fiona
+from .polyencoder import polyencode
+
 
 def getproperties(feature, keys):
     '''Return a list of properties from feature'''

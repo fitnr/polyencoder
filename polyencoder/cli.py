@@ -32,8 +32,11 @@ from __future__ import print_function
 import argparse
 import sys
 from urllib import quote_plus
-from .polyencode_layer import encodelayer
 from .polyencoder import polyencode
+try:
+    from .polyencode_layer import encodelayer
+except ImportError:
+    encodelayer = None
 
 DESC = """
     Encode coordinates with Google's encoded polyline algorithm
@@ -61,13 +64,14 @@ def main():
     points.add_argument('points', nargs='*')
     points.set_defaults(func=encodepoints)
 
-    layer = sp.add_parser('layer', usage='%(prog)s [options] keys [infile]', help="Encode all features in a layer")
+    if encodelayer:
+        layer = sp.add_parser('layer', usage='%(prog)s [options] keys [infile]', help="Encode all features in a layer")
 
-    layer.add_argument('keys', type=str, default='id', help='comma separated list of fields from file to include in CSV')
-    layer.add_argument('infile', nargs='?', default='/dev/stdin')
-    layer.add_argument('--no-encode', action='store_false', dest='encode', help="Don't urlencode the output string")
-    layer.add_argument('--delimiter', type=str, default='\t', help="delimiter (default is tab)")
-    layer.set_defaults(func=encodelayer)
+        layer.add_argument('keys', type=str, default='id', help='comma separated list of fields from file to include in CSV')
+        layer.add_argument('infile', nargs='?', default='/dev/stdin')
+        layer.add_argument('--no-encode', action='store_false', dest='encode', help="Don't urlencode the output string")
+        layer.add_argument('--delimiter', type=str, default='\t', help="delimiter (default is tab)")
+        layer.set_defaults(func=encodelayer)
 
     args = parser.parse_args()
 

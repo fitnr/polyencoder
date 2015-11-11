@@ -44,7 +44,7 @@ setup(
     include_package_data=False,
 
     extras_require={
-        'polyencode-layer': ['Fiona']
+        'layer': ['Fiona']
     },
 
     zip_safe=True,
