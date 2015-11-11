@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # polyencoder
 # Copyright 2015 Neil Freeman contact@fakeisthenewreal.org
 
@@ -28,36 +25,9 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-from setuptools import setup
-
-setup(
-    name='polyencoder',
-    version='0.1.0',
-    description='Encode geo features with the GPolyencoder',
-    long_description='''Encode geo features with the GPolyencoder''',
-    keywords='polygons gis mapping',
-    author='fitnr',
-    license='BSD',
-    author_email='contact@fakeisthenewreal.org',
-    packages=['polyencoder'],
-
-    url='https://github.com/fitnr/polyencoder',
-
-    include_package_data=False,
-
-    extras_require={
-        'layer': ['Fiona']
-    },
-
-    zip_safe=True,
-
-    use_2to3=True,
-
-    test_suite='tests',
-
-    entry_points={
-        'console_scripts': [
-            'polyencode=polyencoder.cli:main',
-        ],
-    },
-)
+deploy:
+	rm -rf dist build
+	python3 setup.py bdist_wheel
+	rm -rf build
+	python setup.py sdist bdist_wheel
+	twine upload dist/*

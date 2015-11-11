@@ -29,8 +29,6 @@ language: python
 
 python:
  - 2.7
- - 2.8
- - 2.9
  - 3.4
  - 3.5
 
@@ -39,10 +37,11 @@ before_install:
  - sudo apt-get -qq install -y libgdal1-dev
 
 install:
+ - pip install fiona
  - python setup.py install
 
 script:
  - python setup.py test
  - polyencode --help
- - polyencode layer --help
+ - polyencode layer GEOID tests/fixtures/brooklyn.geojson
  - polyencode points --help
