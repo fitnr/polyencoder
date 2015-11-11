@@ -43,3 +43,6 @@ install:
 
 script:
  - python setup.py test
+ - polyencode --help
+ - polyencode layer --help
+ - polyencode points --help

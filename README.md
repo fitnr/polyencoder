@@ -5,26 +5,33 @@ Python modules for Google Maps polyline encoding.
 
 Python port of the Javascript Google Maps polyline encoder from Mark McClure, released under a BSD license. Both a pure python (gpolyencode) and a C++ extension (cgpolyencode) are implemented, with numerous unit tests.
 
-== Requirements ==
+## Installing
 
-  * Python >= 2.7
-  * 
+Two options:
+````
+pip install polyencoder
+pip install polyencoder[layer]
+````
 
-== Installing ==
+The first installs the basic polyencoder. The second installs the dependencies for the layer encoder.
 
-=== Pure Python module (gpolyencode) ===
+Requirements:
 
-  $ sudo python python/setup.py install
-
-If you have the Python `easy_install` utility available, you can also type the following to download and install in one step:
-
-  $ sudo easy_install gpolyencode
-  $ sudo easy_install --upgrade gpolyencode    # to force upgrading
+* Python >= 2.7
+* GDAL (layer encoder only)
 
 ## Command line
 
-polyencode layer [options] KEYS INPUT
+Encode a set of points:
+````
 polyencode point x0,y0 x1,y1
+````
+
+Encode a geodata layer (*.geojson, *.shp, etc)
+
+````
+polyencode layer id infile.geojson
+````
 
 ## API
 
