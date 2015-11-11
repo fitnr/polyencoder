@@ -67,8 +67,8 @@ def main():
     if encodelayer:
         layer = sp.add_parser('layer', usage='%(prog)s [options] keys [infile]', help="Encode all features in a layer")
 
-        layer.add_argument('keys', type=str, default='id', help='comma separated list of fields from file to include in CSV')
-        layer.add_argument('infile', nargs='?', default='/dev/stdin')
+        layer.add_argument('keys', type=str, nargs='?', default='id', help='comma separated list of fields from file to include in CSV')
+        layer.add_argument('infile', type=str)
         layer.add_argument('--no-encode', action='store_false', dest='encode', help="Don't urlencode the output string")
         layer.add_argument('--delimiter', type=str, default='\t', help="delimiter (default is tab)")
         layer.set_defaults(func=encodelayer)
