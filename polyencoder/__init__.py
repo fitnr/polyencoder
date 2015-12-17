@@ -29,3 +29,5 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 from .polyencoder import PolyEncoder, polyencode
+
+polyencode = PolyEncoder().polyencode
