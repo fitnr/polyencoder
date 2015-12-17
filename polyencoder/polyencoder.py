@@ -24,11 +24,7 @@
 # Modified for Python 3 support and CLI added by Neil Freeman
 
 import math
-
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
+from cStringIO import StringIO
 
 
 def encode_signed_number(num):
