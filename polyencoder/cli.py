@@ -39,45 +39,51 @@ except ImportError:
     encodelayer = None
 
 DESC = """
-    Encode coordinates with Google's encoded polyline algorithm.
-    see: https://developers.google.com/maps/documentation/utilities/polylinealgorithm
+Encode coordinates with Google's encoded polyline algorithm.
+see: https://developers.google.com/maps/documentation/utilities/polylinealgorithm
+"""
+LAYER_DESC = """
+Encode a set of points
+
+positional arguments:
+  [x,y x,y ...]  List of lon,lat coordinates
 """
 
+def encodepoints(points, encode=True):
+    split_points = (p.split(',') for p in points)
+    poly = polyencode([(float(x), float(y)) for x, y in split_points])
 
-def encodepoints(points):
-    if len(points) == 1:
-        in_points = sys.stdin.read().split(' ')
-    else:
-        in_points = points[1:]
+    if encode:
+        poly = quote_plus(poly)
 
-    points = [(float(x), float(y)) for x, y in [point.split(',') for point in in_points]]
-
-    points = polyencode(points)
-    print(quote_plus(points), file=sys.stdout)
+    print(poly, file=sys.stdout)
 
 
 def main():
-    parser = argparse.ArgumentParser('polyencode', description=DESC)
+    fc = argparse.RawDescriptionHelpFormatter
+    parser = argparse.ArgumentParser('polyencode', description=DESC, formatter_class=fc)
+
     sp = parser.add_subparsers()
 
-    points = sp.add_parser('points', usage='%(prog)s [points ...]', help="Encode a set of points")
-    points.add_argument('points', nargs='*')
+    points = sp.add_parser('points', usage='%(prog)s [x,y x,y ...]', description=LAYER_DESC, formatter_class=fc)
+    points.add_argument('--no-encode', action='store_false', dest='encode', help='Disable url-encoding')
     points.set_defaults(func=encodepoints)
 
     if encodelayer:
-        layer = sp.add_parser('layer', usage='%(prog)s [options] keys [infile]', help="Encode all features in a layer")
-
+        layer = sp.add_parser('layer', usage='%(prog)s [options] keys [infile]', description="Encode all features in a layer")
         layer.add_argument('keys', type=str, nargs='?', default='id', help='comma separated list of fields from file to include in CSV')
         layer.add_argument('infile', type=str, default='-')
-        layer.add_argument('--no-encode', action='store_false', dest='encode', help="Don't urlencode the output string")
         layer.add_argument('--delimiter', type=str, default='\t', help="delimiter (default is tab)")
+        layer.add_argument('--no-encode', action='store_false', dest='encode', help='Disable url-encoding')
         layer.set_defaults(func=encodelayer)
 
-    args = parser.parse_args()
+    args, points = parser.parse_known_args()
 
     if args.func == encodepoints:
-        if len(args.points) == 0:
+        if len(points) == 0:
             args.points = sys.stdin.read().strip().split(' ')
+        else:
+            args.points = points
 
     elif args.func == encodelayer:
         if args.infile in ('-', '/dev/stdin'):
