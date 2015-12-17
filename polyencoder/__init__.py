@@ -28,6 +28,7 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+
 from .polyencoder import PolyEncoder, polyencode
 
-polyencode = PolyEncoder().polyencode
+__version__ = '0.1.1'

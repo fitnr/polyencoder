@@ -37,7 +37,7 @@ except IOError:
 
 setup(
     name='polyencoder',
-    version='0.1.0',
+    version='0.1.1',
     description='Encode geometries and geo layers with the GPolyencoder algorithm',
     long_description=README,
     keywords='polygons gis mapping',
