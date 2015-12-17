@@ -33,6 +33,18 @@ class CliTestCase(unittest.TestCase):
 
         self.assertEqual(expected, out)
 
+    def testPolyEncodePointsStdin(self):
+        args = ('polyencode', 'points')
+        points = b'41.87519,-87.67879 41.86394,-87.63004\n'
+        expected = 'vfzuOspo%7EF\n'.encode('utf8')
+
+        p = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, _ = p.communicate(points)
+
+        self.assertIsNotNone(out)
+        self.assertEqual(expected, out)
+
+
     def testPolyEncode(self):
         p = subprocess.Popen(self.args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 

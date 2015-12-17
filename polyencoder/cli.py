@@ -39,7 +39,7 @@ except ImportError:
     encodelayer = None
 
 DESC = """
-    Encode coordinates with Google's encoded polyline algorithm
+    Encode coordinates with Google's encoded polyline algorithm.
     see: https://developers.google.com/maps/documentation/utilities/polylinealgorithm
 """
 
@@ -53,7 +53,7 @@ def encodepoints(points):
     points = [(float(x), float(y)) for x, y in [point.split(',') for point in in_points]]
 
     points = polyencode(points)
-    print(quote_plus(points))
+    print(quote_plus(points), file=sys.stdout)
 
 
 def main():
@@ -68,15 +68,22 @@ def main():
         layer = sp.add_parser('layer', usage='%(prog)s [options] keys [infile]', help="Encode all features in a layer")
 
         layer.add_argument('keys', type=str, nargs='?', default='id', help='comma separated list of fields from file to include in CSV')
-        layer.add_argument('infile', type=str)
+        layer.add_argument('infile', type=str, default='-')
         layer.add_argument('--no-encode', action='store_false', dest='encode', help="Don't urlencode the output string")
         layer.add_argument('--delimiter', type=str, default='\t', help="delimiter (default is tab)")
         layer.set_defaults(func=encodelayer)
 
     args = parser.parse_args()
 
-    kwargs = vars(args)
+    if args.func == encodepoints:
+        if len(args.points) == 0:
+            args.points = sys.stdin.read().strip().split(' ')
 
+    elif args.func == encodelayer:
+        if args.infile in ('-', '/dev/stdin'):
+            args.infile = sys.stdin
+
+    kwargs = vars(args)
     kwargs.pop('func')(**kwargs)
 
 if __name__ == '__main__':
