@@ -27,7 +27,7 @@ Encode a set of points:
 polyencode point x0,y0 x1,y1
 ````
 
-Encode a geodata layer (*.geojson, *.shp, etc):
+Encode a geodata layer (.geojson, .shp, etc):
 ````
 polyencode layer id infile.geojson
 ````

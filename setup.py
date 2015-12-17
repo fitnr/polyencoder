@@ -30,11 +30,16 @@
 
 from setuptools import setup
 
+try:
+    README = open('README.rst').read()
+except IOError:
+    README = ''
+
 setup(
     name='polyencoder',
     version='0.1.0',
-    description='Encode geo features with the GPolyencoder',
-    long_description='''Encode geo features with the GPolyencoder''',
+    description='Encode geometries and geo layers with the GPolyencoder algorithm',
+    long_description=README,
     keywords='polygons gis mapping',
     author='fitnr',
     license='BSD',
